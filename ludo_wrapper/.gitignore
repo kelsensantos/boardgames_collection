@@ -1,0 +1,6 @@
+#*
+!*.py
+#!*.ipynb
+#!*.md
+*.json
+*.pickle
