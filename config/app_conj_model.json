@@ -1,0 +1,6 @@
+{
+    "APP_ID": "<APP_ID>",
+    "APP_KEY": "<APP_KEY>",
+    "ACCESS_TOKEN": "<ACESS_TOKEN>",
+    "CODE_URL":"http://localhost:5000"
+}
