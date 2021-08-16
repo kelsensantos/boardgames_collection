@@ -1,3 +1,3 @@
 [submodule "ludopedia_wrapper"]
 	path = ludopedia_wrapper
-	url = https://github.com/kelsensantos/ludopedia_wrapper.git
+	url = git@github.com:kelsensantos/ludopedia_wrapper.git
