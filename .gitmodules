@@ -1,3 +1,6 @@
-[submodule "ludopedia_wrapper"]
-	path = ludopedia_wrapper
+[submodule "submodules/buscador"]
+	path = submodules/buscador
+	url = git@github.com:kelsensantos/buscador-de-boardgames.git
+[submodule "submodules/ludopedia_wrapper"]
+	path = submodules/ludopedia_wrapper
 	url = git@github.com:kelsensantos/ludopedia_wrapper.git
