@@ -127,4 +127,4 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-/config/app_conf.json
+/submodules/ludopedia_wrapper/app_conf.json
