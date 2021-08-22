@@ -130,3 +130,6 @@ dmypy.json
 /submodules/ludopedia_wrapper/app_conf.json
 /output/
 /notebooks/output/
+/notebooks/
+/testing/
+/anotacoes/

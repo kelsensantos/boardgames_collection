@@ -18,7 +18,7 @@ class Database:
 
     # tablenames
     tb_colecao = 'colecao'
-    tb_valor_de_mercado = 'mercado'
+    tb_valor_de_mercado = 'jogos_valordemercado'
 
     @staticmethod
     def _connection(host=_host, name=_name, user=_user, password=_password):
@@ -56,13 +56,6 @@ class Database:
             if_exists=if_exists,
             index=False
         )
-        # salva cópia de segurança
-        filename = datetime.today().strftime('%Y-%m-%d-%H-%M-%S')
-        df.to_csv(
-            f"output/security_copy_{tablename}_{filename}.csv",
-            sep=';',
-            index=False
-        )
         engine.dispose()
         return df
 
@@ -80,11 +73,7 @@ class Database:
         # salva cópia de segurança
         Database.fazer_backup(df=df, tablename=tablename)
         engine.dispose()
-        return df
-
-    @staticmethod
-    def insert_value(tablename, coluna, ticker):
-        Database.execute(f"INSERT INTO {tablename}({coluna}) values('{ticker}')")
+        print('Valores adicionados.')
 
     @staticmethod
     def fazer_backup(df, tablename):
