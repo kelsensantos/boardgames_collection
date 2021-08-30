@@ -18,7 +18,10 @@ class Database:
 
     # tablenames
     tb_colecao = 'colecao'
+    tb_tags = 'colecao_tags'
+    tb_locais = 'colecao_locais'
     tb_valor_de_mercado = 'jogos_valordemercado'
+    tb_jogos_detalhes = 'jogos_detalhes'
 
     @staticmethod
     def _connection(host=_host, name=_name, user=_user, password=_password):
