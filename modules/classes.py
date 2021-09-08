@@ -79,8 +79,52 @@ class Colecao:
         # salva no banco de dados
         Database.atualizar_database(df, Database.tb_jogos_detalhes)
 
+    # noinspection PyBroadException
     @staticmethod
-    def atualizar_colecao():
+    def _atualiza_dados_privados(colecao):
+
+        def obtem_dados(row, valores):
+            # obtém comentário privado
+            comentario = row['comentario_privado']
+            if comentario is not None:
+                # separa as linhas em lista
+                x = comentario.split(sep='\n')
+                # elimina strings vazias
+                x = list(filter(None, x))
+                # elimina eventuais espaços adicionais
+                x = [i.strip() for i in x]
+            # cria dicionário a ser preenchido e preenche dados de identificação e custo do jogo
+            dados = {'id_jogo': row.id_jogo, 'nm_jogo': row.nm_jogo, 'vl_custo': row.vl_custo}
+            # preenche dados de custo e valor de mercado (se existir na database)
+            if valores is not False:
+                selecao = valores['id_jogo'] == row['id_jogo']
+                dados_jogo = valores[selecao]
+                vl_mercado = dados_jogo['valor_de_mercado'].item()
+                dados['vl_mercado'] = vl_mercado
+            # preenche o dicionário com valores nas linhas
+            if comentario is not None:
+                # noinspection PyUnboundLocalVariable
+                for v in x:
+                    # obtém valores em cada linha
+                    linha = v.split(sep=':')
+                    # elimina eventuais espaços adicionais
+                    linha = [i.strip() for i in linha]
+                    # trata valores na lista
+                    dados[linha[0]] = linha[1]
+            dados_privados.append(dados)
+
+        try:
+            valores_atuais = Mercado.buscar_valores_registrados()
+        except:
+            valores_atuais = False
+
+        dados_privados = []
+        colecao.apply(lambda row: obtem_dados(row, valores_atuais), axis=1)
+        df = pd.DataFrame(dados_privados)
+        Database.atualizar_database(df, Database.tb_dados_privados)
+
+    @staticmethod
+    def atualizar_colecao(atualizar_valor_de_mercado=True):
         api = Colecao._ludopedia_api
         print('Atualizando coleção...')
         print('Buscando jogos na coleção...')
@@ -98,6 +142,16 @@ class Colecao:
         # atualiza detalhes dos jogos
         print('Buscando detalhes dos jogos...')
         Colecao._atualiza_detalhes_dos_jogos(colecao)
+        # atualiza dados extras de usuários
+        if atualizar_valor_de_mercado:
+            print('Atualizando valores de mercado...')
+            Mercado.atualizar_valores_registrados()
+            print('Valor de mercado atualizado...')
+        # atualiza dados privados da coleção
+        print('Atualizando dados privados da coleção...')
+        Colecao._atualiza_dados_privados(colecao)
+        print('Dados privados da coleção atualizados...')
+        # fim
         print('Atualização completa!')
 
     @staticmethod
@@ -241,3 +295,4 @@ class Mercado:
         novos_registros = registrados_atuais.apply(lambda row: Mercado._atualizar_registro_de_valor(row), axis=1)
         Database.atualizar_database(novos_registros, Database.tb_valor_de_mercado)
         print('Valores atualizados')
+        return novos_registros

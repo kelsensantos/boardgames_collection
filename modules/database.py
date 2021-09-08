@@ -18,6 +18,7 @@ class Database:
 
     # tablenames
     tb_colecao = 'colecao'
+    tb_dados_privados = 'colecao_dados_privados'
     tb_tags = 'colecao_tags'
     tb_locais = 'colecao_locais'
     tb_valor_de_mercado = 'jogos_valordemercado'
